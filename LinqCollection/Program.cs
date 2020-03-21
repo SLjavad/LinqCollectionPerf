@@ -13,7 +13,7 @@ namespace LinqCollectionPref
         static List<CustomerAggregate> customerAggregates;
         static Dictionary<int, CustomerPreference> customerPreferencesDict;
 
-        private static void CombineWithForLoop()
+        private static void JoinWithForLoop()
         {
             customerAggregates = new List<CustomerAggregate>();
             for (int i = 0; i < customers.Length; i++)
@@ -29,7 +29,7 @@ namespace LinqCollectionPref
             }
         }
 
-        private static void CombineWithForeachLoop()
+        private static void JoinWithForeachLoop()
         {
             customerAggregates = new List<CustomerAggregate>();
             foreach (Customer cust in customers)
@@ -44,7 +44,7 @@ namespace LinqCollectionPref
             }
         }
 
-        private static void CombineWithSelect()
+        private static void JoinWithSelect()
         {
             customerAggregates = customers.Select(cust =>
                                             {
@@ -58,7 +58,7 @@ namespace LinqCollectionPref
                                             }).ToList();
         }
 
-        private static void CombineWithJoin()
+        private static void JoinWithJoin()
         {
             customerAggregates = customers.Join(customerPreferences,
                                                 cust => cust.CustomerID,
@@ -71,7 +71,7 @@ namespace LinqCollectionPref
                                                 }).ToList();
         }
 
-        private static void CombineWithQueryJoin()
+        private static void JoinWithQueryJoin()
         {
             customerAggregates = (from customer in customers
                                   join preference in customerPreferences on customer.CustomerID equals preference.CustomerID
@@ -83,7 +83,7 @@ namespace LinqCollectionPref
                                   }).ToList();
         }
 
-        private static void CombineWithDict()
+        private static void JoinWithDict()
         {
             var custDict = customerPreferences.ToDictionary(k => k.CustomerID);
             customerAggregates = customers.Select(customer =>
@@ -99,7 +99,7 @@ namespace LinqCollectionPref
 
         }
 
-        private static void CombineWithDictInner()
+        private static void JoinWithDictInner()
         {
             customerAggregates = customers.Select(customer =>
             {
@@ -113,7 +113,7 @@ namespace LinqCollectionPref
             }).ToList();
         }
 
-        private static void CombineWithManualIterationDict()
+        private static void JoinWithManualIterationDict()
         {
             var preferences = new Dictionary<int, CustomerPreference>(customerPreferences.Length);
             foreach (var custPref in customerPreferences)
@@ -153,14 +153,14 @@ namespace LinqCollectionPref
             BasicSeed();
             Console.WriteLine("start ...");
             stopwatch.Start();
-            //CombineWithForLoop(); // 11335 mili Debug 6526 mili Release
-            //CombineWithForeachLoop(); // 11279 mili Debug 6850 mili Release
-            //CombineWithSelect(); //11680 mili Debug 5994 mili release
-            //CombineWithJoin(); // Exccellent :D 129 mili Debug 129 mili Release ... there was no diff between release and debug ... the performance was sooo good :D
-            CombineWithQueryJoin(); // same as above :D
-            //CombineWithDict(); // Maybe a little bit slower ... but in general .. there was no diff than above
-            //CombineWithDictInner(); // same as above :D
-            //CombineWithManualIterationDict(); // excellent ... same as above :D
+            //JoinWithForLoop(); // 11335 mili Debug 6526 mili Release
+            //JoinWithForeachLoop(); // 11279 mili Debug 6850 mili Release
+            //JoinWithSelect(); //11680 mili Debug 5994 mili release
+            //JoinWithJoin(); // Exccellent :D 129 mili Debug 129 mili Release ... there was no diff between release and debug ... the performance was sooo good :D
+            JoinWithQueryJoin(); // same as above :D
+            //JoinWithDict(); // Maybe a little bit slower ... but in general .. there was no diff than above
+            //JoinWithDictInner(); // same as above :D
+            //JoinWithManualIterationDict(); // excellent ... same as above :D
             stopwatch.Stop();
 
             Console.WriteLine(stopwatch.Elapsed.TotalMilliseconds);
