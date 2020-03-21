@@ -1,5 +1,5 @@
 # LinqCollectionPerf
-Performance of IEnumerable.Join() and dictionary over simple loops
+Performance of IEnumerable.Join() and dictionary vs simple loops
 
 You can uncomment method that you want to test and then run the program.
 
